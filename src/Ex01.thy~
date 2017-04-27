@@ -31,7 +31,7 @@ lemma "A \<longrightarrow> A"
 proof -
 { (*the brackets work like a "level" in a Fitch-style proof*)
   assume a:A
-  from this have A  .(*the dot means: "by this"*)(*this actually isn't needed*)
+  from this have A by assumption (*this actually isn't needed*)
 } 
 from this show ?thesis by (rule impI) (*?thesis is whats you want to proof: "A \<longrightarrow> A"*) 
 qed
