@@ -2,7 +2,7 @@ theory Ex06
 imports Main 
 begin 
 
-thm disjE
+
 lemma "\<lbrakk> A \<or> B ; A \<or> C\<rbrakk> \<Longrightarrow> A \<or> (B \<and> C)"
 proof -
 assume "A \<or> B"
