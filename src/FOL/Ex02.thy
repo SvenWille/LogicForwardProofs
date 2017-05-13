@@ -2,7 +2,7 @@ theory Ex02
 imports Main 
 begin 
 
-thm impE
+
 lemma "\<lbrakk> \<forall>x.(P x \<longrightarrow> Q x) ; P a \<rbrakk> \<Longrightarrow> Q a"
 proof - 
 assume "\<forall>x.(P x \<longrightarrow> Q x)"

@@ -1,5 +1,7 @@
 # LogicForwardProofs
 
+- scroll down for exercises in FOL (first order logic)  
+- for original source code (using plain ascii instead of unicode) and alternative/other solutions have a look at the "src" folder  
 
 ## Propositional Logic
 
@@ -69,7 +71,24 @@ thus ?thesis by (rule impI)
 qed
 ```
 
-##First Order Logic
+**Exercise 4: (A ⟶ (B ∧ C)) ⟶ (A ⟶ B)**
+```isabelle
+lemma  "(A ⟶ (B ∧ C)) ⟶ (A ⟶ B)"
+proof - 
+{
+  assume "A ⟶ (B ∧ C)"
+  {
+    assume "A"
+    with ‹A ⟶ (B ∧ C)› have "B ∧ C" by (rule impE)
+    hence B by (rule conjE)
+  }
+  hence "A ⟶ B" by (rule impI)
+}
+thus ?thesis by (rule impI)
+qed
+```
+
+## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
 
@@ -80,5 +99,16 @@ assume "P a"
 assume "Q a"
 with ‹P a› have "P a ∧ Q a" by (rule conjI)
 thus ?thesis by (rule exI)
+qed
+```
+
+**Exercise 2:  ⟦ ∀x.(P x ⟶ Q x) ; P a ⟧ ⟹ Q a**
+```isabelle
+lemma "⟦ ∀x.(P x ⟶ Q x) ; P a ⟧ ⟹ Q a"
+proof - 
+assume "∀x.(P x ⟶ Q x)"
+assume "P a"
+from ‹∀x.(P x ⟶ Q x)› have "P a ⟶ Q a" by (rule allE)
+from this and  ‹P a› show ?thesis by (rule impE) 
 qed
 ```
