@@ -1,7 +1,7 @@
 # LogicForwardProofs
 
 
-##Propositional Logic
+## Propositional Logic
 
 Proof the following theorems
 
