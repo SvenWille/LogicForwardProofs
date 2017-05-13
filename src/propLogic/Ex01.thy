@@ -30,10 +30,10 @@ lemma "A \<Longrightarrow> A" by auto
 lemma "A \<longrightarrow> A"
 proof -
 { (*the brackets work like a "level" in a Fitch-style proof*)
-  assume a:A
+  assume A
   from this have A  .(*the dot means: "by this"*)(*this actually isn't needed*)
 } 
-from this show ?thesis by (rule impI) (*?thesis is whats you want to proof: "A \<longrightarrow> A"*) 
+from this show ?thesis by (rule impI) (*?thesis is "the top level lemma"(what stands after "lemma") you want to proof: "A \<longrightarrow> A"*) 
 qed
 
 
@@ -41,18 +41,18 @@ qed
 lemma "A \<longrightarrow> A"
 proof -
 { (*the brackets work like a "level" in a Fitch-style proof*)
-  assume a:A
+  assume A
 } 
-from this show ?thesis by (rule impI) (*?thesis is whats you want to proof: "A \<longrightarrow> A"*) 
+from this show ?thesis by (rule impI) 
 qed
 
 
 lemma shows "A \<longrightarrow> A" 
 proof - 
 { (*the brackets work like a "level" in a Fitch-style proof*)
-  assume a:A
+  assume A
 } 
-from this show ?thesis by (rule impI) (*?thesis is whats you want to proof: "A \<longrightarrow> A"*) 
+from this show ?thesis by (rule impI) 
 qed
 
 
