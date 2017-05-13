@@ -4,6 +4,7 @@
 - for original source code (using plain ascii instead of unicode) and alternative/other solutions have a look at the "src" folder  
 
 ##Propositional Logic
+
 Proof the following theorems
 
 **Exercise 1_1: A ⟹ A**
