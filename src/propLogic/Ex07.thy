@@ -4,7 +4,7 @@ begin
 
 (*Peirce's Law*)
 
-thm classical
+
 lemma "(( A \<longrightarrow> B) \<longrightarrow> A) \<longrightarrow> A" 
 proof - 
 {
@@ -28,7 +28,7 @@ qed
 
 (*slightly prettified*)
 
-thm classical
+
 lemma "(( A \<longrightarrow> B) \<longrightarrow> A) \<longrightarrow> A" 
 proof - 
 {
