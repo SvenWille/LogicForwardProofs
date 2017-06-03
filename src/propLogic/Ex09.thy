@@ -3,7 +3,7 @@ imports Main
 begin 
 
 
-thm disjE
+
 lemma " \<not>C \<longrightarrow> A \<or> ((A \<or> C) \<longrightarrow> B)"
 proof - 
 {
