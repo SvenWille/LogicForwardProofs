@@ -745,3 +745,34 @@ proof -
   thus ?thesis by (rule impI)
 qed
 ```
+
+**Exercise 11: (¬ (∃x. ∀y. P x y)) ⟶ ¬(∃x. ∃y .  ¬P x y) ⟶ False**
+
+```isabelle
+lemma "(¬ (∃x. ∀y. P x y)) ⟶ ¬(∃x. ∃y .  ¬P x y) ⟶ False " 
+proof -
+  {
+    assume a:"(¬ (∃x. ∀y. P x y))"
+    {
+      fix aa
+      assume b:"¬(∃x. ∃y .  ¬P x y)"
+      {
+        fix bb
+        {
+          assume "¬P aa bb"
+          hence "∃y. ¬P aa y" by (rule exI)
+          hence "∃x. ∃y. ¬P x y" by (rule exI)
+          with b have False by contradiction
+        }
+        hence "¬¬P aa bb" by (rule notI)
+        hence "P aa bb" by (rule notnotD)
+      }
+      hence "∀y. P aa y" by (rule allI)
+      hence "∃x. ∀y. P x y" by (rule exI)
+      with a have False by contradiction
+    }
+    hence "¬(∃x. ∃y .  ¬P x y) ⟶ False " by (rule impI)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
