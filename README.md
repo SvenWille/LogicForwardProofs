@@ -652,5 +652,75 @@ qed
 **Exercise 6: (∃x. ∀y. P x y) ⟶ (∀y. ∃x. P x y)**
 
 ```isabelle
+lemma "(∃x. ∀y. P x y) ⟶ (∀y. ∃x. P x y)" 
+proof -
+  {
+    assume "∃x. ∀y. P x y" 
+    { 
+      fix b
+      {
+        fix a           
+        assume "∀y .P a y"
+        hence "P a b" by (rule allE)
+        hence "∃x. P x b" by (rule exI)
+      } 
+      with  ‹∃x. ∀y. P x y› have "∃x. P x b" by (rule exE)
+    }
+    hence "∀y. ∃x. P x y" by (rule allI)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
+
+**Exercise 7: (¬ (∀x. ∃y. P x y)) ⟷ (∃x. ∀y. ¬P x y)**
+
+```isabelle
 
 ```
+
+**Exercise 8:**
+
+**Exercise 9: (∃x. P x) =  (¬(∀x. ¬P x))**
+
+```isabelle
+lemma "(∃x. P x) =  (¬(∀x. ¬P x))" 
+proof -
+  {
+    assume a:"∃x. P x"
+    {
+      assume b:"∀x. ¬P x"
+      {
+        fix aa
+        assume c:"P aa"
+        from b have "¬P aa" by (rule allE)
+        with c have False by contradiction
+      }
+      with a have False by (rule exE)
+    }
+    hence "¬(∀x. ¬P x)" by (rule notI)
+  }
+  moreover
+  {
+    assume d:"¬(∀x. ¬P x)"
+    {
+      assume e:"¬(∃x. P x)"
+      {
+        fix aa
+        {
+          assume "P aa"
+          hence "∃x. P x" by (rule exI)
+          with e have False by contradiction
+        }   
+        hence "¬P aa" by (rule notI)
+      }
+      hence "∀x. ¬P x" by (rule allI)
+      with d have False by contradiction
+    }
+    hence "¬¬(∃x. P x)" by (rule notI)
+    hence "(∃x. P x)" by (rule notnotD)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
+
+**Exercise 10: **
