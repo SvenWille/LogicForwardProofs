@@ -723,4 +723,25 @@ proof -
 qed
 ```
 
-**Exercise 10: **
+**Exercise 10: (∀x. (P x ⟶ Q x)) ⟶ ((∀x. P x) ⟶ (∀x. Q x))**
+
+```isabelle
+lemma "(∀x. (P x ⟶ Q x)) ⟶ ((∀x. P x) ⟶ (∀x. Q x))"
+proof -
+  {
+    assume a:"∀x. (P x ⟶ Q x)"
+    {
+      assume b:"∀x. P x"
+      {
+        fix aa 
+        from a have c:"P aa ⟶ Q aa" by (rule allE)
+        from b have "P aa" by (rule allE)
+        with c have "Q aa" by (rule mp)
+      }
+      hence "∀x. Q x" by (rule allI)
+    }
+    hence "(∀x. P x) ⟶ (∀x. Q x)" by (rule impI)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
