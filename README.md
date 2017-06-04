@@ -776,3 +776,31 @@ proof -
   thus ?thesis by (rule impI)
 qed
 ```
+
+**Exercise 12: (∀x. (P x ⟶ Q x)) ⟶ (∀x. (Q x ⟶ R x)) ⟶ (∀x .(P x ⟶ R x))**
+
+```isabelle
+lemma "(∀x. (P x ⟶ Q x)) ⟶ (∀x. (Q x ⟶ R x)) ⟶ (∀x .(P x ⟶ R x))"  
+proof - 
+  {
+    assume a:"∀x. (P x ⟶ Q x)"
+    {
+      assume b:"∀x. (Q x ⟶ R x)"
+      {
+        fix aa 
+        {
+          assume c:"P aa"
+          from b have e:"Q aa ⟶ R aa" by (rule allE)
+          from a have d:"P aa ⟶ Q aa" by (rule allE)
+          from this and c have "Q aa" by (rule mp)
+          with e have "R aa" by (rule mp)
+        }
+        hence "P aa ⟶ R aa" by (rule impI)
+      }
+      hence "∀x. (P x ⟶ R x)" by (rule allI)
+    }
+    hence "(∀x. (Q x ⟶ R x)) ⟶(∀x. (P x ⟶ R x))" by (rule impI)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
