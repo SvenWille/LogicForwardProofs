@@ -967,6 +967,52 @@ proof -
 qed
 ```
 
+**Exercise 30: (A ⟶ B ⟶ C)  ⟷ (¬C ⟶ A ⟶ ¬B)**
+
+```isabelle
+lemma "(A ⟶ B ⟶ C)  ⟷ (¬C ⟶ A ⟶ ¬B)" 
+proof -
+  {
+    assume a:"A ⟶ B ⟶ C"
+    {
+      assume b:"¬C"
+      {
+        assume A 
+        with a have c:"B ⟶ C" by (rule mp)
+        {
+          assume B 
+          with c have C by (rule mp)
+          with b have False by contradiction
+        }
+        hence "¬B" by (rule notI)
+      }
+      hence "A ⟶ ¬B" by (rule impI)
+    }
+    hence "¬C ⟶ A ⟶ ¬B" by (rule impI)
+  }
+  moreover
+  {
+    assume d:"¬C ⟶ A ⟶ ¬B"
+    {
+      assume e:A 
+      {
+        assume f:B 
+        {
+          assume "¬C"
+          with d have "A ⟶ ¬B" by (rule mp)
+          from this and e have "¬B" by (rule mp)
+          with f have False by contradiction
+        }
+        hence "¬¬C" by (rule notI)
+        hence C by (rule notnotD)
+      }
+      hence "B ⟶ C" by (rule impI)
+    }
+    hence "A ⟶ B ⟶ C" by (rule impI)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
