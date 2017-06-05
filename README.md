@@ -573,8 +573,102 @@ ultimately show ?thesis by (rule iffI)
 qed
 ```
 
-**Exercise 21: **
+**Exercise 21: (A ⟷ B)  ⟷ (A ∧ B) ∨ (¬A ∧ ¬B)**
+
 ```isabelle
+lemma "(A ⟷ B)  ⟷ (A ∧ B) ∨ (¬A ∧ ¬B)" 
+proof -
+  {
+    assume a:"A ⟷ B"
+    hence b:"A ⟶ B" by (rule iffE)
+    from a have c:"B ⟶ A" by (rule iffE)
+    {
+      assume d:"¬ ((A ∧ B) ∨  (¬A ∧ ¬B))"
+      {
+        assume e:A 
+        with b have B by (rule mp)
+        with e have "A ∧ B" by (rule conjI)
+        hence "(A ∧ B) ∨ (¬A ∧ ¬B)" by (rule disjI1)
+        with d have False by contradiction
+      }
+      hence f:"¬A" by (rule notI)
+      {
+        assume g:B 
+        with c have A by (rule mp)
+        from this and  g have "A ∧ B" by (rule conjI)
+        hence "(A ∧ B) ∨ (¬A ∧ ¬B)" by (rule disjI1)
+        with d have False by contradiction
+      }
+      hence h:"¬B" by (rule notI)
+      from f and h have "¬A ∧ ¬B" by (rule conjI)
+      hence "(A ∧ B) ∨  (¬A ∧ ¬B)" by (rule disjI2)
+      with d have False by contradiction
+    }
+    hence "¬¬ ((A ∧ B) ∨  (¬A ∧ ¬B))" by (rule notI)
+    hence "(A ∧ B) ∨  (¬A ∧ ¬B)" by (rule notnotD)
+  }
+  moreover
+  {
+    assume a:"(A ∧ B) ∨ (¬A ∧ ¬B)" 
+    {
+      assume b:"A ∧ B"
+      hence c:A by (rule conjE)
+      from b have d:B by (rule conjE)
+      {
+        assume A 
+        have B by (rule d)
+      }
+      moreover
+      {
+        assume B 
+        have A by (rule c)
+      }
+      ultimately have "A ⟷ B" by (rule iffI)
+    }
+    note d=this 
+    {
+      assume e:"¬A ∧ ¬B" 
+      hence f:"¬A" by (rule conjE)
+      from e have g:"¬B" by (rule conjE)          
+      {
+        assume h:"¬(A ⟶ B)"
+        {
+          assume A 
+          with f have False by contradiction
+          hence B by (rule FalseE)
+        }
+        hence "A ⟶ B" by (rule impI)
+        with h have False by contradiction
+      }
+      hence "¬¬(A ⟶ B)" by (rule notI)
+      hence i:"A ⟶ B" by (rule notnotD)
+      {
+        assume A 
+        with i have B by(rule mp)
+      }
+      moreover
+      {
+        assume j:"¬(B ⟶ A)"
+        {
+          assume B
+          with g have False by contradiction
+          hence A by (rule FalseE)
+        }
+        hence " B ⟶ A" by (rule impI)
+        with j have False by contradiction
+      }
+      hence "¬¬(B ⟶ A)" by (rule notI)
+      hence k:"B ⟶ A" by (rule notnotD)
+      {
+        assume B 
+        with k have A by (rule mp)
+      }
+        ultimately have "A ⟷ B" by (rule iffI)
+    }
+    from a and d and this have "A ⟷ B" by (rule disjE)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
 ```
 
 **Exercise 22: ¬A ⟶ A ⟶ B**
@@ -766,6 +860,110 @@ proof -
     hence "A ⟶ (B ⟶ C)" by (rule impI)
   }
   ultimately show ?thesis by (rule iffI)
+qed
+```
+
+**Exercise 27: P ∨ ¬P**
+
+```isabelle
+(*law of excluded middle*)
+lemma "P ∨ ¬P"
+proof -
+  {
+    assume a:"¬(P ∨ ¬P)"
+    {
+      assume b:P
+      hence "P ∨ ¬P" by (rule disjI1)
+      with a have False by contradiction
+    }
+    hence "¬P" by (rule notI)
+    hence "P ∨ ¬P" by (rule disjI2)
+    with a have False by contradiction
+  }
+  hence "¬¬(P ∨ ¬P)" by (rule notI)
+  thus ?thesis by (rule notnotD)
+qed
+```
+
+**Exercise 28: ¬(A ∧ B) ⟷ (¬A ∨ ¬B)**
+
+```isabelle
+lemma "¬(A ∧ B) ⟷ (¬A ∨ ¬B)" 
+proof -
+  {
+    
+    assume a:"¬(A ∧ B)"
+    {
+      assume b:"¬(¬A ∨ ¬B)"
+      {
+        assume "¬A"
+        hence "¬A ∨ ¬B" by (rule disjI1)
+        with b have False by contradiction
+      }
+      hence "¬¬A" by (rule notI)
+      hence c:A by (rule notnotD)
+      {
+        assume "¬B"
+        hence "¬A ∨ ¬B" by (rule disjI2)
+        with b have False by contradiction
+      }
+      hence "¬¬B" by (rule notI)
+      hence B by (rule notnotD)
+      with c have "A ∧ B" by (rule conjI)
+      with a have False by contradiction
+    }
+    hence "¬¬(¬A ∨ ¬B)" by (rule notI)
+    hence "¬A ∨ ¬B" by (rule notnotD)
+  }
+  moreover
+  {
+    assume a:"¬A ∨ ¬B"
+    {
+      assume b:"A ∧ B"
+      hence c:A by (rule conjE)
+      from b have d:B by (rule conjE)
+      {
+        assume "¬A"
+        with c have False by contradiction
+      }
+      note e=this
+      {
+        assume "¬B"
+        with d have False by contradiction
+      }
+      with a and e have False by (rule disjE)
+    }
+    hence "¬(A ∧ B)" by (rule notI)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
+
+**Exercise 29: (A ⟶ B) ⟶ (C ⟶ ¬B) ⟶ (A ⟶ ¬C)**
+
+```isabelle
+(*since implication has right associativity this is the same as (A ⟶ B) ⟶ (C ⟶ ¬B) ⟶ A ⟶ ¬C*)
+lemma "(A ⟶ B) ⟶ (C ⟶ ¬B) ⟶ (A ⟶ ¬C)"
+proof -
+  {
+    assume a:"A ⟶ B"
+    {
+      assume b:"C ⟶ ¬B"
+      {
+        assume A
+        with a have c:B by (rule mp)
+        {
+          assume C 
+          with b have "¬B" by (rule mp)
+          with c have False by contradiction
+        }
+        hence "¬C" by (rule notI)
+      }
+      hence "A ⟶ ¬C" by (rule impI)
+    }
+    hence "(C ⟶ ¬B) ⟶ A ⟶ ¬C" by (rule impI)
+  }
+  thus ?thesis by (rule impI)
 qed
 ```
 
