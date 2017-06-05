@@ -21,10 +21,3 @@ proof -
           {
             fix d
             
-lemma "(\<not> (\<forall>x. \<exists>y. P x y)) \<longleftrightarrow> (\<exists>x. \<forall>y. \<not>P x y)"  
-proof -
-  {
-    fix a b
-    assume a:"\<not> (\<forall>x. \<exists>y. P x y)"
-    {
-      assume "\<not> (\<forall>x. \<exists>y. P x y) "
