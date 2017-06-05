@@ -1241,3 +1241,20 @@ proof -
   thus ?thesis by (rule impI)
 qed
 ```
+
+**Exercise 13: ⋀aa. ((∀x. (P x ⟶ Q x)) ∧ P aa  ⟶ Q aa)**
+
+```isabelle
+lemma "⋀aa. ((∀x. (P x ⟶ Q x)) ∧ P aa  ⟶ Q aa)" 
+proof -
+  {
+    fix aa
+    assume a:"(∀x. (P x ⟶ Q x)) ∧ P aa"
+    hence b:"P aa" by (rule conjE)
+    from a have "∀x. (P x ⟶ Q x)" by (rule conjE)
+    hence "P aa ⟶ Q aa" by (rule allE)
+    from this and b have "Q aa" by (rule mp)
+  }
+  thus "⋀aa. ((∀x. (P x ⟶ Q x)) ∧ P aa  ⟶ Q aa)"  by (rule impI)  
+qed
+```
