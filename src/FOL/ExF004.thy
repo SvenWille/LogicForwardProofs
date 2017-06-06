@@ -1,4 +1,4 @@
-theory ExF04
+theory ExF004
 imports Main 
 begin 
 thm allI

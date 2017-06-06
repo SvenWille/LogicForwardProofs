@@ -1013,6 +1013,88 @@ proof -
   ultimately show ?thesis by (rule iffI)
 qed
 ```
+
+**Exercise 31: (A ⟶ B) ∨ A ⟷ (B ⟶ A) ∨ B **
+
+```isabelle
+lemma "(A ⟶ B) ∨ A ⟷ (B ⟶ A) ∨ B "  
+proof - 
+  {
+    assume a:"(A ⟶ B) ∨ A"
+    {
+      assume b:"¬((B ⟶ A) ∨ B)"
+      {
+        assume c:A
+        {
+          assume B 
+          have A by (rule c)
+        }
+        hence "B ⟶ A" by (rule impI)
+        hence "(B ⟶ A) ∨ B" by (rule disjI1)
+        with b have False by contradiction
+        hence "(B ⟶ A) ∨ B" by (rule FalseE)
+      }
+      note d=this
+      {
+        assume "A ⟶ B"
+        {
+          assume e:B
+          {
+            assume "¬A"
+            from e have "(B ⟶ A) ∨ B" by (rule disjI2)
+            with b have False by contradiction
+          }
+          hence "¬¬A" by (rule notI)
+          hence A by (rule notnotD)
+        }
+        hence "B ⟶ A" by (rule impI)
+        hence "(B ⟶ A) ∨ B" by (rule disjI1)
+      }
+      from a and this and d have "(B ⟶ A) ∨ B" by (rule disjE)
+      with b have False by contradiction
+    }
+    hence "¬¬((B ⟶ A) ∨ B)" by (rule notI)
+    hence "(B ⟶ A) ∨ B" by (rule notnotD)
+  }
+  moreover
+  {
+    assume f:"(B ⟶ A) ∨ B"
+    {
+      assume g:"¬((A ⟶ B) ∨ A)"
+      {
+        assume h:B
+        {
+          assume A 
+          have B by (rule h)
+        }
+        hence "A ⟶ B" by (rule impI)
+        hence "(A ⟶ B) ∨ A" by (rule disjI1)
+      }
+      note i=this
+      {
+        assume "B ⟶ A"
+        {
+          assume j:A 
+          {
+            assume "¬B"
+            from j have "(A ⟶ B) ∨ A" by (rule disjI2)
+            with g have False by contradiction
+          }
+          hence "¬¬B" by (rule notI)
+          hence B by (rule notnotD)
+        }
+        hence "A ⟶ B" by (rule impI)
+        hence "(A ⟶ B) ∨ A" by (rule disjI1)
+      }
+      from f and this and i have "(A ⟶ B) ∨ A" by (rule disjE)
+      with g have False by contradiction
+    }
+    hence "¬¬((A ⟶ B) ∨ A)" by (rule notI)
+    hence "(A ⟶ B) ∨ A" by (rule notnotD)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
