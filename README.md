@@ -1279,7 +1279,61 @@ qed
 **Exercise 7: (¬ (∀x. ∃y. P x y)) ⟷ (∃x. ∀y. ¬P x y)**
 
 ```isabelle
-
+lemma "(¬(∀x. ∃y. P x y)) ⟷ (∃x. ∀y. ¬P x y)"  
+proof -
+  {
+    assume a:"¬ (∀x. ∃y. P x y)"
+    {
+      assume b:"¬(∃x. ∀y. ¬P x y)"
+      {
+        fix aa
+        {
+          assume c:"¬(∃y. P aa y)"
+          {
+            fix bb
+            {
+              assume "P aa bb"
+              hence "∃y. P aa y" by (rule exI)
+              with c have False by contradiction
+            }
+            hence "¬P aa bb" by (rule notI)    
+          }
+          hence "∀y. ¬P aa y" by (rule allI)
+          hence "∃x. ∀y. ¬P x y" by (rule exI)
+          with b have False by contradiction
+        }   
+        hence "¬¬(∃y. P aa y)" by (rule notI)  
+        hence "∃y. P aa y" by (rule notnotD)  
+      }
+      hence "∀x. ∃y. P x y" by (rule allI)
+      with a have False by contradiction
+    }
+    hence "¬¬(∃x. ∀y. ¬P x y)" by (rule notI)
+    hence "∃x. ∀y. ¬P x y" by (rule notnotD)
+  }  
+  moreover
+  {
+    assume a:"∃x. ∀y. ¬P x y"
+    {
+      assume b:"∀x. ∃y. P x y" 
+      {
+        fix aa 
+        assume c:"∀y. ¬P aa y"
+        from b have d:"∃y. P aa y" by (rule allE)
+        {
+          fix bb
+          assume d:"P aa bb" 
+          from c have "¬P aa bb" by (rule allE)
+          with d have False by contradiction
+        }
+        with d have False by (rule exE)
+      }
+      with a have False by (rule exE)
+    }
+    hence "¬(∀x. ∃y. P x y)" by (rule notI)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
 ```
 
 **Exercise 8:**
