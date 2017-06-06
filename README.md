@@ -1014,7 +1014,7 @@ proof -
 qed
 ```
 
-**Exercise 31: (A ⟶ B) ∨ A ⟷ (B ⟶ A) ∨ B **
+**Exercise 31: (A ⟶ B) ∨ A ⟷ (B ⟶ A) ∨ B**
 
 ```isabelle
 lemma "(A ⟶ B) ∨ A ⟷ (B ⟶ A) ∨ B "  
