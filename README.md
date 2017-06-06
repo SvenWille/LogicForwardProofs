@@ -1095,6 +1095,91 @@ proof -
   ultimately show ?thesis by (rule iffI)
 qed
 ```
+
+**Exercise 32: ((A ∧ B ) ⟶ C) ⟷ ((A ⟶ C) ∨ (¬C ⟶ ¬B))**
+
+```isabelle
+lemma "((A ∧ B ) ⟶ C) ⟷ ((A ⟶ C) ∨ (¬C ⟶ ¬B)) "    
+proof -
+  {
+    assume a:"(A ∧ B ) ⟶ C"
+    {
+      assume b:"¬ ((A ⟶ C) ∨ (¬C ⟶ ¬B))"
+      {
+        assume c:A 
+        {
+          assume d:"¬C"
+          {
+            assume B
+            with c have "A ∧ B" by (rule conjI)
+            with a have e:C by (rule mp)
+            {
+              assume A 
+              have C by (rule e)
+            }
+            hence "A ⟶ C" by (rule impI)
+            hence "(A ⟶ C) ∨ (¬C ⟶ ¬B)" by (rule disjI1) 
+            with b have False by contradiction
+          }
+          hence "¬B" by (rule notI)
+        }
+        hence "¬C ⟶ ¬B" by (rule impI)
+        hence "(A ⟶ C) ∨ (¬C ⟶ ¬B)" by (rule disjI2)
+        with b have False by contradiction
+        hence C by (rule FalseE)
+      }
+      hence "A ⟶ C" by (rule impI)
+      hence "(A ⟶ C) ∨ (¬C ⟶ ¬B)" by (rule disjI1)
+      with  b have False by contradiction
+    }
+    hence "¬¬((A ⟶ C) ∨ (¬C ⟶ ¬B))" by (rule notI)
+    hence "(A ⟶ C) ∨ (¬C ⟶ ¬B)" by (rule notnotD)
+  }
+  moreover
+  {
+    assume e:"(A ⟶ C) ∨ (¬C ⟶ ¬B)" 
+    {
+      assume f:"A ⟶ C"
+      {
+        assume g:"¬((A ∧ B ) ⟶ C)"
+        {
+          assume "A ∧ B"
+          hence A by (rule conjE)
+          with f have C by (rule mp)
+        }
+        hence "A ∧ B ⟶ C" by (rule impI)
+        with g have False by contradiction
+      }
+      hence "¬¬(A ∧ B ⟶ C)" by (rule notI)
+      hence "A ∧ B ⟶ C" by (rule notnotD)
+    }
+    note h=this
+    {
+      assume i:"¬C ⟶ ¬B"
+      {
+        assume j:"¬((A ∧ B ) ⟶ C)"
+        {
+          assume k:"A ∧ B" 
+          {
+            assume "¬C"
+            with i have l:"¬B" by (rule mp)
+            from k have B by (rule conjE)
+            with l have False by contradiction
+          }
+          hence "¬¬C" by (rule notI)
+          hence C by (rule notnotD)
+        }
+        hence "(A ∧ B ) ⟶ C" by (rule impI)
+        with j have False by contradiction
+      }
+      hence "¬¬((A ∧ B ) ⟶ C)" by (rule notI)
+      hence "(A ∧ B ) ⟶ C" by (rule notnotD)
+    }
+    with e and h  have "(A ∧ B ) ⟶ C" by (rule disjE)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
