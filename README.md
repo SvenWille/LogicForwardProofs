@@ -1180,6 +1180,74 @@ proof -
   ultimately show ?thesis by (rule iffI)
 qed
 ```
+
+**Exercise 33: ((A ∧ (B ⟶ C )) ⟶ A) ⟷ ((A  ∧ (B ⟶ ¬C)) ⟶ A)**
+
+```isabelle
+lemma "((A ∧ (B ⟶ C )) ⟶ A) ⟷ ((A  ∧ (B ⟶ ¬C)) ⟶ A) "
+proof -
+  {
+    assume "(A ∧ (B ⟶ C )) ⟶ A" 
+    {
+      assume "A  ∧ (B ⟶ ¬C)"
+      hence A by (rule conjE)
+    }
+    hence "(A ∧ (B ⟶ ¬C)) ⟶ A" by (rule impI)
+  }
+  moreover
+  {
+    assume "(A  ∧ (B ⟶ ¬C)) ⟶ A"
+    {
+      assume "A ∧ (B ⟶ C )"
+      hence  A by (rule conjE)
+    }
+    hence "(A ∧ (B ⟶ C )) ⟶ A" by (rule impI)
+  }
+  ultimately show ?thesis by (rule iffI)
+qed
+```
+
+**Exercise 34: (A ∨ ((B ⟶ C) ∧ D)) ⟶ ((B ∨ A) ∨ (¬C ⟶ D))**
+
+```isabelle
+lemma "(A ∨ ((B ⟶ C) ∧ D)) ⟶ ((B ∨ A) ∨ (¬C ⟶ D))"  
+proof -
+  {
+    assume a:"A ∨ ((B ⟶ C) ∧ D)"
+    {
+      assume A 
+      hence "B ∨ A" by (rule disjI2)
+      hence "(B ∨ A) ∨ (¬C ⟶ D)" by (rule disjI1)
+    }
+    note b=this
+    {
+      assume c:"(B ⟶ C) ∧ D"
+      hence d:"B ⟶ C" by (rule conjE)
+      from c have e:D by (rule conjE)
+      {
+        assume f:"¬((B ∨ A) ∨ (¬C ⟶ D))"
+        {
+          assume g:"¬(¬C ⟶ D)"
+          {
+            assume "¬C"
+            have D by (rule e)
+          }
+          hence "¬C ⟶ D" by (rule impI)
+          with g have False by contradiction
+        }
+        hence "¬¬(¬C ⟶ D)" by (rule notI)
+        hence "¬C ⟶ D" by (rule notnotD)
+        hence "(B ∨ A) ∨ (¬C ⟶ D)" by (rule disjI2)
+        with f have False by contradiction
+      }
+      hence "¬¬((B ∨ A) ∨ (¬C ⟶ D))" by (rule notI)
+      hence "(B ∨ A) ∨ (¬C ⟶ D)" by (rule notnotD)
+    }
+    from a and b and this have "(B ∨ A) ∨ (¬C ⟶ D)" by (rule disjE)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
@@ -1226,6 +1294,49 @@ qed
 **Exercise 4: (∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y)**
 
 ```isabelle
+theorem "(∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y)" 
+proof - 
+  {
+    assume a:"¬((∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y) )"
+    {
+      assume "∀x. ∃y. P x y"
+      hence "(∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y)" ..
+      with a have False ..
+    }
+    hence  b:"¬(∀x. ∃y. P x y)" by (rule notI)
+    {
+      assume c:"¬(∃x. ∀y. ¬P x y)"
+      {
+        fix aa
+        {
+          assume d:"¬(∃y. P aa y)"    
+          {
+            fix bb 
+            {
+              assume "P aa bb"
+              hence "∃y. P aa y" by (rule exI)
+              with d have False by contradiction
+            }
+            hence "¬P aa bb" by (rule notI)
+          }
+          hence "∀y. ¬P aa y" by (rule allI)
+          hence "∃x. ∀y. ¬P x y" by (rule exI)
+          with c have False by contradiction
+        }
+        hence "¬¬(∃y. P aa y)" by (rule notI)
+        hence "∃y. P aa y" by (rule notnotD)
+      }
+      hence "∀x. ∃y. P x y" by (rule allI)
+      with b have False by contradiction
+    }
+    hence "¬¬(∃x. ∀y. ¬P x y)" by (rule notI)
+    hence "∃x. ∀y. ¬P x y" by (rule notnotD)
+    hence "(∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y)"  by (rule disjI2)
+    with a have False by contradiction
+  }
+  hence "¬¬((∀x. ∃y. P x y) ∨ (∃x. ∀y. ¬P x y))" by (rule notI)
+  thus ?thesis by (rule notnotD)
+qed
 ```
 
 **Exercise 5: (∀x . (P x ∧ Q x)) ⟶ ((∀x . P x) ∧ (∀ x . Q x))**
