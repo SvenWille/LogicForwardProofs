@@ -1248,6 +1248,47 @@ proof -
   thus ?thesis by (rule impI)
 qed
 ```
+
+**Exercise 35: A ⟶ True**
+
+```isabelle
+lemma "A ⟶ True" 
+proof -
+  {
+    assume A 
+    have True by (rule TrueI)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
+
+**Exercise 36: (A ⟹ B) ⟹ A ⟹ B**
+
+```isabelle
+lemma "(A ⟹ B) ⟹ A ⟹ B"  
+  using [[simp_trace_new mode=full]]
+proof -
+  {
+    assume a:"A ⟹ B" 
+    hence b:"A ⟶ B" by (rule impI)
+    {
+      assume A
+      with b show B by (rule mp)
+    }
+  }
+qed
+  
+(*just another way to I like to represent this proof*)
+lemma "(A ⟹ B) ⟹ A ⟹ B"
+proof -
+  assume a:"A ⟹ B"
+  hence b:"A ⟶ B" by (rule impI)
+  assume A
+  with b show B by (rule mp)
+qed
+```
+
+ 
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
