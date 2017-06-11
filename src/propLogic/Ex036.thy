@@ -24,7 +24,14 @@ proof -
   assume A
   with b show B by (rule mp)
 qed
-  
 
+(*proving with meta implication*)  
+lemma "(A \<Longrightarrow> B) \<Longrightarrow> A \<Longrightarrow> B"
+proof -
+  assume a:"A \<Longrightarrow> B"
+  assume A 
+  with a have B by (rule meta_mp)
+qed
+  
       
    
