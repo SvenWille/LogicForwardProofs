@@ -5,24 +5,24 @@
 
 #### Number of exercises
 
-Propositional logic: 40
+Propositional logic: 40  
 First order logic: 15
  
 #### Important Rules
 
-impI = implication introduction
-mp = modus ponens (also implication elimination)
-impE = implication elimination
-conjI = conjunction/and introduction
-conjE =conjunction/and elimination
-disjI1 =disjunction/or introduction (where a new the right side or "or" is added: A => A \/ B)
-disjI2 = like disjI1 but positions swapped
-disjE = disjunction/or elimination
-exI = existential introduction
-exE = existential elimination
-allI = all introduction
-allE = all elimination
-assumption = uses a previously stated assumption
+impI = implication introduction  
+mp = modus ponens (also implication elimination)  
+impE = implication elimination  
+conjI = conjunction/and introduction  
+conjE =conjunction/and elimination  
+disjI1 =disjunction/or introduction (where a new the right side or "or" is added: A => A \/ B)  
+disjI2 = like disjI1 but positions swapped  
+disjE = disjunction/or elimination  
+exI = existential introduction  
+exE = existential elimination  
+allI = all introduction  
+allE = all elimination  
+assumption = uses a previously stated assumption  
 
 ## Propositional Logic
 
