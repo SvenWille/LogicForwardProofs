@@ -1,4 +1,4 @@
-theory Ex09
+theory Ex009
 imports Main 
 begin 
 
