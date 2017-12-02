@@ -5,7 +5,7 @@
 
 #### Number of exercises
 
-Propositional logic: 45  
+Propositional logic: 46  
 First order logic: 17
  
 #### Important Rules and Proof-Methods
