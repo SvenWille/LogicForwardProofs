@@ -5,8 +5,8 @@
 
 #### Number of exercises
 
-Propositional logic: 40  
-First order logic: 15
+Propositional logic: 45  
+First order logic: 17
  
 #### Important Rules
 
@@ -22,7 +22,7 @@ exI = existential introduction
 exE = existential elimination  
 allI = all introduction  
 allE = all elimination  
-assumption = uses a previously stated assumption  
+assumption = uses a hypothesis to proof the goal
 
 ## Propositional Logic
 
@@ -1564,6 +1564,35 @@ proof -
 qed
 ```
 
+**Exercise 45: C ⟶ ¬A ∨ ((B ∨ C) ⟶ A)**
+```isabelle
+theorem "C ⟶ ¬A ∨ ((B ∨ C) ⟶ A)" 
+proof - 
+  {
+
+    assume C
+    {
+      assume "¬(¬A ∨ ((B ∨ C) ⟶ A))" 
+      {
+        assume A 
+        {
+          assume "B ∨ C"
+          from ‹A› have A by assumption
+        }
+        hence "(B ∨ C) ⟶ A" by (rule impI)
+        hence "¬A ∨ ((B ∨ C) ⟶ A)" by (rule disjI2)
+        with ‹¬(¬A ∨ ((B ∨ C) ⟶ A))› have False by (rule notE)
+      }
+      hence "¬A" by (rule notI)
+      hence "¬A ∨ ((B ∨ C) ⟶ A)" by (rule disjI1)
+      with ‹¬(¬A ∨ ((B ∨ C) ⟶ A))› have False by contradiction
+    }
+    hence "¬¬(¬A ∨ ((B ∨ C) ⟶ A))" by (rule notI)
+    hence "¬A ∨ ((B ∨ C) ⟶ A)" by (rule notnotD)
+  }
+  thus ?thesis by (rule impI)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
