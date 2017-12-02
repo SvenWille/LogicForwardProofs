@@ -854,6 +854,31 @@ proof -
   }    
   ultimately show ?thesis by (rule iffI)    
 qed
+
+(*without notnotD*)
+
+theorem "A ⟷ ¬¬A"
+proof -
+ {
+    assume a:A 
+    {
+      assume "¬A"
+      with a have False by contradiction
+    }
+    hence "¬¬A" by (rule notI)
+  }
+  moreover 
+  {
+    assume "¬¬A"
+    {
+      assume "¬A"
+      with ‹¬¬A› have False by (rule notE)
+      hence A by (rule FalseE)
+    }
+    hence A by (rule classical)
+  }    
+  ultimately show ?thesis by (rule iffI)    
+qed  
 ```
 
 **Exercise 26: (A ⟶ (B ⟶ C)) ⟷ (B ⟶ (A ⟶ C))**
