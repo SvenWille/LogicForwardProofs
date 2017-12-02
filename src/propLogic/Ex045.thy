@@ -1,11 +1,10 @@
 theory Ex045
   imports Main 
 begin 
-  
+
 theorem "C \<longrightarrow> \<not>A \<or> ((B \<or> C) \<longrightarrow> A)" 
 proof - 
   {
-
     assume C
     {
       assume "\<not>(\<not>A \<or> ((B \<or> C) \<longrightarrow> A))" 
@@ -28,5 +27,6 @@ proof -
   }
   thus ?thesis by (rule impI)
 qed
+
 
       

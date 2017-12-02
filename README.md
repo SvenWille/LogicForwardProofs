@@ -8,7 +8,7 @@
 Propositional logic: 45  
 First order logic: 17
  
-#### Important Rules
+#### Important Rules and Proof-Methods
 
 impI = implication introduction  
 mp = modus ponens (also implication elimination)  
@@ -23,6 +23,8 @@ exE = existential elimination
 allI = all introduction  
 allE = all elimination  
 assumption = uses a hypothesis to proof the goal
+FalseE = false elemination, i.e. from false one can conclude anything
+notE = proof by contradiction
 
 ## Propositional Logic
 
@@ -1569,7 +1571,6 @@ qed
 theorem "C ⟶ ¬A ∨ ((B ∨ C) ⟶ A)" 
 proof - 
   {
-
     assume C
     {
       assume "¬(¬A ∨ ((B ∨ C) ⟶ A))" 
