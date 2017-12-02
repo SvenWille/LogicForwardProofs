@@ -1594,6 +1594,19 @@ proof -
   thus ?thesis by (rule impI)
 qed
 ```
+
+**Exercise 46: (A ∧ (A ⟶ ¬A)) ⟹ (A ∧ (B ⟶ ¬A))**
+```isabelle
+theorem "(A ∧ (A ⟶ ¬A)) ⟹ (A ∧ (B ⟶ ¬A))"  
+proof -
+  assume a:"A ∧ (A ⟶ ¬A)"
+  hence b:"A ⟶ ¬A" by (rule conjE)
+  from a have c:A by (rule conjE)
+  with b have "¬A" by (rule impE)
+  with c have False by contradiction
+  thus ?thesis by (rule FalseE)
+qed
+```
 ## First Order Logic
 
 **Exercise 1: ⟦ P a ; Q a ⟧ ⟹ ∃x. P x ∧ Q x**
